@@ -66,6 +66,21 @@ function removeCarriages() {
     });
 }
 
+function addProfileCreatedText() {
+    const profileText = document.createElement('div');
+    
+    profileText.textContent = 'Созданно Ануфриевым С.Л';
+
+    profileText.style.position = 'fixed';
+    profileText.style.bottom = '10px';
+    profileText.style.right = '10px';
+    profileText.style.color = 'white';
+    profileText.style.padding = '10px';
+    profileText.style.zIndex = '1000';
+
+    document.body.appendChild(profileText);
+}
+
 const observer = new MutationObserver(mutations => {
     for (const mutation of mutations) {
         if (mutation.type === 'childList' || mutation.type === 'subtree') {
@@ -78,5 +93,6 @@ observer.observe(document.body, { childList: true, subtree: true });
 
 window.addEventListener('load', () => {
     changeAddressBadge();
+    addProfileCreatedText();
     setInterval(changeAddressBadge, 1000);
 });
