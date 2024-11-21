@@ -1,0 +1,41 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    width: 300px;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+.popup-container {
+    padding: 20px;
+    text-align: center;
+}
+
+h1 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+button {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #0078d7;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #005a9e;
+}
+
+#status {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #555;
+}

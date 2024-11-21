@@ -3,16 +3,21 @@
   "name": "WMS OZON",
   "version": "1.1.0",
   "description": "Приложение для модификации системы турбо ПВЗ",
-  "permissions": ["activeTab"],
+  "permissions": ["storage", "activeTab", "scripting"],
+  "host_permissions": ["https://turbo-pvz.ozon.ru/*"],
   "icons": {
     "48": "icon48.png"
-},
+  },
   "content_scripts": [
-      {
-          "matches": [
-              "https://turbo-pvz.ozon.ru/*"
-          ],
-          "js": ["content.js"]
-      }
-  ]
+    {
+      "matches": ["https://turbo-pvz.ozon.ru/*"],
+      "js": ["content.js"]
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "48": "icon48.png"
+    }
+  }
 }

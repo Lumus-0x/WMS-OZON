@@ -1,3 +1,58 @@
+let isExtensionActive = false; // Локальная переменная для хранения состояния
+
+// Функция для включения модификаций
+function activateModifications() {
+    console.log('Активация модификаций...');
+    isExtensionActive = true;
+    changeAddressBadge();
+    addProfileCreatedText();
+}
+
+// Функция для выключения модификаций
+function deactivateModifications() {
+    console.log('Деактивация модификаций...');
+    isExtensionActive = false;
+    removeCarriages();
+    removeProfileCreatedText();
+}
+
+// Проверка состояния при загрузке
+function checkExtensionState() {
+    chrome.storage.local.get(['extensionActive'], result => {
+        isExtensionActive = result.extensionActive || false;
+        if (isExtensionActive) {
+            activateModifications();
+        } else {
+            deactivateModifications();
+        }
+    });
+}
+
+// Слушатель для сообщений от popup.js
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    if (message.action === 'toggleExtension') {
+        isExtensionActive = !isExtensionActive;
+        chrome.storage.local.set({ extensionActive: isExtensionActive }, () => {
+            if (isExtensionActive) {
+                activateModifications();
+            } else {
+                deactivateModifications();
+            }
+            sendResponse({ status: isExtensionActive ? 'Активировано' : 'Деактивировано' });
+        });
+        return true; // Асинхронный ответ
+    }
+});
+
+// Удаление созданного текста
+function removeProfileCreatedText() {
+    const profileText = document.querySelector('div[style*="Созданно Ануфриевым С.Л"]');
+    if (profileText) {
+        profileText.remove();
+    }
+}
+
+// Основные функции модификации
 function changeAddressBadge() {
     const elements = {
         addressBadges: document.querySelectorAll('._addressBadge_1kmk7_1.ozi-heading-500'),
@@ -46,8 +101,10 @@ function removeCarriages() {
         '._filter_n3ctm_18',
         '._filter_nvofz_1._filterWithStores_nvofz_7',
         '.ozi__breadcrumb-content__label__PKDFH.ozi-body-500',
-        '.ozi__breadcrumbs__separator__DsxCI'
+        '.ozi__breadcrumbs__separator__DsxCI',
+        '.ozi__island__island__6OcbH.ozi-body-500.ozi__island__elevate__6OcbH.ozi__island__size-500__6OcbH.ozi__island__hoverable__6OcbH.ozi__island__cursor__6OcbH._button_1fzjv_1._toggler_1tvs3_23'
     ];
+
     selectorsToRemove.forEach(selector => {
         const element = document.querySelector(selector);
         if (element) element.remove();
@@ -68,23 +125,23 @@ function removeCarriages() {
 
 function addProfileCreatedText() {
     const profileText = document.createElement('div');
-    
     profileText.textContent = 'Созданно Ануфриевым С.Л';
-
     profileText.style.position = 'fixed';
     profileText.style.bottom = '10px';
     profileText.style.right = '10px';
     profileText.style.color = 'white';
     profileText.style.padding = '10px';
     profileText.style.zIndex = '1000';
-
     document.body.appendChild(profileText);
 }
 
+// Подключение наблюдателя и проверка состояния при загрузке
 const observer = new MutationObserver(mutations => {
-    for (const mutation of mutations) {
-        if (mutation.type === 'childList' || mutation.type === 'subtree') {
-            changeAddressBadge();
+    if (isExtensionActive) {
+        for (const mutation of mutations) {
+            if (mutation.type === 'childList' || mutation.type === 'subtree') {
+                changeAddressBadge();
+            }
         }
     }
 });
@@ -92,7 +149,5 @@ const observer = new MutationObserver(mutations => {
 observer.observe(document.body, { childList: true, subtree: true });
 
 window.addEventListener('load', () => {
-    changeAddressBadge();
-    addProfileCreatedText();
-    setInterval(changeAddressBadge, 1000);
+    checkExtensionState();
 });
