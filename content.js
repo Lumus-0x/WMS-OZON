@@ -1,6 +1,5 @@
-let isExtensionActive = false; // Локальная переменная для хранения состояния
+let isExtensionActive = false;
 
-// Функция для включения модификаций
 function activateModifications() {
     console.log('Активация модификаций...');
     isExtensionActive = true;
@@ -8,7 +7,6 @@ function activateModifications() {
     addProfileCreatedText();
 }
 
-// Функция для выключения модификаций
 function deactivateModifications() {
     console.log('Деактивация модификаций...');
     isExtensionActive = false;
@@ -16,7 +14,6 @@ function deactivateModifications() {
     removeProfileCreatedText();
 }
 
-// Проверка состояния при загрузке
 function checkExtensionState() {
     chrome.storage.local.get(['extensionActive'], result => {
         isExtensionActive = result.extensionActive || false;
@@ -28,7 +25,6 @@ function checkExtensionState() {
     });
 }
 
-// Слушатель для сообщений от popup.js
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.action === 'toggleExtension') {
         isExtensionActive = !isExtensionActive;
@@ -40,11 +36,10 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             }
             sendResponse({ status: isExtensionActive ? 'Активировано' : 'Деактивировано' });
         });
-        return true; // Асинхронный ответ
+        return true;
     }
 });
 
-// Удаление созданного текста
 function removeProfileCreatedText() {
     const profileText = document.querySelector('div[style*="Созданно Ануфриевым С.Л"]');
     if (profileText) {
@@ -52,7 +47,6 @@ function removeProfileCreatedText() {
     }
 }
 
-// Основные функции модификации
 function changeAddressBadge() {
     const elements = {
         addressBadges: document.querySelectorAll('._addressBadge_1kmk7_1.ozi-heading-500'),
@@ -135,7 +129,6 @@ function addProfileCreatedText() {
     document.body.appendChild(profileText);
 }
 
-// Подключение наблюдателя и проверка состояния при загрузке
 const observer = new MutationObserver(mutations => {
     if (isExtensionActive) {
         for (const mutation of mutations) {

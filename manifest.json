@@ -6,7 +6,8 @@
   "permissions": ["storage", "activeTab", "scripting"],
   "host_permissions": ["https://turbo-pvz.ozon.ru/*"],
   "icons": {
-    "48": "icon48.png"
+    "48": "icon48.png",
+    "128": "icon128.png"
   },
   "content_scripts": [
     {
@@ -17,7 +18,8 @@
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
-      "48": "icon48.png"
+      "48": "icon48.png",
+      "128": "icon128.png"
     }
   }
 }
