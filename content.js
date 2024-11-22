@@ -54,7 +54,10 @@ function changeAddressBadge() {
         addressPriem: document.querySelector('._addressBadge_mor7k_87.ozi-heading-500._addressBadgeDefault_mor7k_114'),
         profile: document.querySelector('.ozi__link-nuxt__linkNuxt__8oE33.ozi__link-common__onLight__QaR0v.ozi__link-common__primary__QaR0v._user_yzupa_17'),
         claimsMain: document.querySelector('.ozi__text-view__textView__ff2BT.ozi__text-view__headline-h1__ff2BT.ozi-heading-600.ozi__text-view__light__ff2BT.ozi__text-view__paddingTopOff__ff2BT'),
-        claimsNumber: document.querySelector('.ozi__text-view__textView__ff2BT.ozi__text-view__headline-h1__ff2BT.ozi-heading-600.ozi__text-view__light__ff2BT.ozi__text-view__paddingBottomOff__ff2BT.ozi__text-view__paddingTopOff__ff2BT')
+        claimsNumber: document.querySelector('.ozi__text-view__textView__ff2BT.ozi__text-view__headline-h1__ff2BT.ozi-heading-600.ozi__text-view__light__ff2BT.ozi__text-view__paddingBottomOff__ff2BT.ozi__text-view__paddingTopOff__ff2BT'),
+        returnSeller: document.querySelector('.ozi__text-view__textView__ff2BT.ozi__text-view__headline-h2__ff2BT.ozi-heading-400.ozi__text-view__light__ff2BT.ozi__text-view__paddingBottomOff__ff2BT.ozi__text-view__paddingTopOff__ff2BT._title_85wpk_2'),
+        returnClient: document.querySelector('.ozi__text-view__textView__ff2BT.ozi__text-view__headline-h2__ff2BT.ozi-heading-400.ozi__text-view__light__ff2BT.ozi__text-view__paddingBottomOff__ff2BT.ozi__text-view__paddingTopOff__ff2BT._title_85wpk_2'),
+        returnMail: document.querySelector('.ozi__text-view__textView__ff2BT.ozi__text-view__headline-h2__ff2BT.ozi-heading-400.ozi__text-view__light__ff2BT.ozi__text-view__paddingBottomOff__ff2BT.ozi__text-view__paddingTopOff__ff2BT._title_85wpk_2')
     };
 
     if (elements.addressPriem) {
@@ -63,7 +66,6 @@ function changeAddressBadge() {
                           elements.addressPriem.textContent;
         elements.addressPriem.textContent = newAddress;
     }
-
     elements.addressBadges.forEach(badge => {
         badge.textContent = badge.textContent.trim().startsWith('600-') ? 'КГТ-1' : 
                            badge.textContent.trim().startsWith('599-') ? 'КГТ-2' : 
@@ -86,6 +88,18 @@ function changeAddressBadge() {
         elements.claimsMain.textContent = elements.claimsMain.textContent.trim().replace(/^Список обращений/, 'Список хуйни и бреда');
     }
 
+    if(elements.returnSeller) {
+        elements.returnSeller.textContent = elements.returnSeller.textContent.trim().replace(/^Возвраты продавцу/, "Returns to Seller");
+    }
+
+    if(elements.returnClient) {
+        elements.returnClient.textContent = elements.returnClient.textContent.trim().replace(/^Возвраты от покупателя/, "Returns to Client");
+    }
+
+    if (elements.returnMail) {
+        elements.returnMail.textContent = elements.returnMail.textContent.trim().replace(/^Возвраты почты/, 'Returns to Mail');
+    }
+
     removeCarriages();
 }
 
@@ -96,7 +110,9 @@ function removeCarriages() {
         '._filter_nvofz_1._filterWithStores_nvofz_7',
         '.ozi__breadcrumb-content__label__PKDFH.ozi-body-500',
         '.ozi__breadcrumbs__separator__DsxCI',
-        '.ozi__island__island__6OcbH.ozi-body-500.ozi__island__elevate__6OcbH.ozi__island__size-500__6OcbH.ozi__island__hoverable__6OcbH.ozi__island__cursor__6OcbH._button_1fzjv_1._toggler_1tvs3_23'
+        '.ozi__island__island__6OcbH.ozi-body-500.ozi__island__elevate__6OcbH.ozi__island__size-500__6OcbH.ozi__island__hoverable__6OcbH.ozi__island__cursor__6OcbH._button_1fzjv_1._toggler_1tvs3_23',
+        '.ozi__informer__informer__HzSFx.ozi-body-500.ozi__informer__size-500__HzSFx.ozi__informer__warning__HzSFx.ozi__informer__showAccentLine__HzSFx',
+        '.ozi__informer__informer__HzSFx.ozi-body-500.ozi__informer__size-500__HzSFx.ozi__informer__info__HzSFx.ozi__informer__showAccentLine__HzSFx'
     ];
 
     selectorsToRemove.forEach(selector => {
