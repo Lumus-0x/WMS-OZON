@@ -95,7 +95,6 @@ function removeCarriages() {
         '._filter_nvofz_1._filterWithStores_nvofz_7',
         '.ozi__breadcrumb-content__label__PKDFH.ozi-body-500',
         '.ozi__informer__informer__HzSFx.ozi-body-500.ozi__informer__size-500__HzSFx.ozi__informer__info__HzSFx.ozi__informer__showAccentLine__HzSFx',
-        '.ozi__informer__informer__HzSFx.ozi-body-500.ozi__informer__size-500__HzSFx.ozi__informer__warning__HzSFx.ozi__informer__showAccentLine__HzSFx',
         '.ozi__island__island__6OcbH.ozi-body-500.ozi__island__elevate__6OcbH.ozi__island__size-500__6OcbH.ozi__island__hoverable__6OcbH.ozi__island__cursor__6OcbH._button_1fzjv_1._toggler_1tvs3_23'
 
     ];
