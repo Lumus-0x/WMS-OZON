@@ -91,7 +91,6 @@ function changeAddressBadge() {
 function removeCarriages() {
     const selectorsToRemove = [
         '._filter_n3ctm_18',
-        '._carriagesInfoWidget_1n5pn_1',
         '.ozi__breadcrumbs__separator__DsxCI',
         '._filter_nvofz_1._filterWithStores_nvofz_7',
         '.ozi__breadcrumb-content__label__PKDFH.ozi-body-500',
