@@ -2,7 +2,7 @@ body {
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
-    width: 300px;
+    width: 307px;
     height: auto;
     background: #121212; /* Глубокий тёмный фон */
     color: #e5e5e5; /* Светлый текст */
@@ -35,7 +35,7 @@ p {
 button {
     display: block;
     width: 100%;
-    margin: 20px 0;
+    margin: 10px 0; /* Изменено для равномерного отступа между кнопками */
     padding: 12px;
     border: 2px solid #0066ff;
     border-radius: 8px;
@@ -68,7 +68,6 @@ button:hover {
     background-color: #ff0000; /* Красный, когда неактивен */
     margin-bottom: 8px;
     transition: background-color 0.3s ease;
-    animation: blink 2s infinite alternate;
 }
 
 #status {
@@ -91,20 +90,21 @@ button:hover {
         transform: translateY(-10px);
         opacity: 0;
     }
-    to {
+    
+   to {
         transform: translateY(0);
         opacity: 1;
-    }
+   }
 }
 
 @keyframes blink {
-    0% {
-        opacity: 1;
-    }
-    50% {
-        opacity: 0.6;
-    }
-    100% {
-        opacity: 1;
-    }
+   0% {
+       opacity: 1;
+   }
+   50% {
+       opacity: 0.6;
+   }
+   100% {
+       opacity: 1;
+   }
 }
