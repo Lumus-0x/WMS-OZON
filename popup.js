@@ -4,11 +4,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const indicatorCircle = document.querySelector('.circle');
 
     const toggleButtons = [
-        { id: 'toggleNews', key: 'newsActive', label: 'Новости' },
-        { id: 'toggleTraining', key: 'trainingActive', label: 'Обучение' },
-        { id: 'toggleOzonBank', key: 'ozonBankActive', label: 'OZON Банк' },
-        { id: 'toggleAddressStorage', key: 'addressStorageActive', label: 'Адресное Хранение' },
-        { id: 'toggleReviews', key: 'reviewsActive', label: 'Отзывы' }
+        { id: 'toggleNews', key: 'newsActive', label: 'Новости (не работает)' },
+        { id: 'toggleTraining', key: 'trainingActive', label: 'Обучение (не работает)' },
+        { id: 'toggleOzonBank', key: 'ozonBankActive', label: 'OZON Банк (не работает)' },
+        { id: 'toggleAddressStorage', key: 'addressStorageActive', label: 'Адресное Хранение (не работает)' },
+        { id: 'toggleReviews', key: 'reviewsActive', label: 'Отзывы (не работает)' }
     ];
 
     function updateUI(isActive) {
