@@ -54,10 +54,7 @@ function changeAddressBadge() {
         addressPriem: document.querySelector('._addressBadge_mor7k_87.ozi-heading-500._addressBadgeDefault_mor7k_114'),
         profile: document.querySelector('.ozi__link-nuxt__linkNuxt__8oE33.ozi__link-common__onLight__QaR0v.ozi__link-common__primary__QaR0v._user_yzupa_17'),
         claimsMain: document.querySelector('.ozi__text-view__textView__ff2BT.ozi__text-view__headline-h1__ff2BT.ozi-heading-600.ozi__text-view__light__ff2BT.ozi__text-view__paddingTopOff__ff2BT'),
-        claimsNumber: document.querySelector('.ozi__text-view__textView__ff2BT.ozi__text-view__headline-h1__ff2BT.ozi-heading-600.ozi__text-view__light__ff2BT.ozi__text-view__paddingBottomOff__ff2BT.ozi__text-view__paddingTopOff__ff2BT'),
-        returnSeller: document.querySelector('.ozi__text-view__textView__ff2BT.ozi__text-view__headline-h2__ff2BT.ozi-heading-400.ozi__text-view__light__ff2BT.ozi__text-view__paddingBottomOff__ff2BT.ozi__text-view__paddingTopOff__ff2BT._title_85wpk_2'),
-        returnClient: document.querySelector('.ozi__text-view__textView__ff2BT.ozi__text-view__headline-h2__ff2BT.ozi-heading-400.ozi__text-view__light__ff2BT.ozi__text-view__paddingBottomOff__ff2BT.ozi__text-view__paddingTopOff__ff2BT._title_85wpk_2'),
-        returnMail: document.querySelector('.ozi__text-view__textView__ff2BT.ozi__text-view__headline-h2__ff2BT.ozi-heading-400.ozi__text-view__light__ff2BT.ozi__text-view__paddingBottomOff__ff2BT.ozi__text-view__paddingTopOff__ff2BT._title_85wpk_2')
+        claimsNumber: document.querySelector('.ozi__text-view__textView__ff2BT.ozi__text-view__headline-h1__ff2BT.ozi-heading-600.ozi__text-view__light__ff2BT.ozi__text-view__paddingBottomOff__ff2BT.ozi__text-view__paddingTopOff__ff2BT')
     };
 
     if (elements.addressPriem) {
@@ -80,24 +77,12 @@ function changeAddressBadge() {
         elements.nameTab.textContent = elements.nameTab.textContent.trim().replace(/^Турбо ПВЗ/, 'OZON WMS');
     }
 
-    if (elements.returnMail) {
-        elements.returnMail.textContent = elements.returnMail.textContent.trim().replace(/^Возвраты почты/, 'Returns to Mail');
-    }
-
     if (elements.claimsNumber) {
         elements.claimsNumber.textContent = elements.claimsNumber.textContent.trim().replace(/^Претензия/, 'Непонятная хуетень ');
     }
 
     if (elements.claimsMain) {
         elements.claimsMain.textContent = elements.claimsMain.textContent.trim().replace(/^Список обращений/, 'Список хуйни и бреда');
-    }
-
-    if(elements.returnSeller) {
-        elements.returnSeller.textContent = elements.returnSeller.textContent.trim().replace(/^Возвраты продавцу/, "Returns to Seller");
-    }
-
-    if(elements.returnClient) {
-        elements.returnClient.textContent = elements.returnClient.textContent.trim().replace(/^Возвраты от покупателя/, "Returns to Client");
     }
 
     removeCarriages();
