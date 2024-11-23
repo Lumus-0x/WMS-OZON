@@ -1,41 +1,110 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
     width: 300px;
-    background-color: black;
-    color: white;
+    height: auto;
+    background: #121212; /* Глубокий тёмный фон */
+    color: #e5e5e5; /* Светлый текст */
 }
 
 .popup-container {
     padding: 20px;
     text-align: center;
+    border: 2px solid #0066ff; /* Акцентная синяя рамка */
+    border-radius: 8px;
+    background: #1e1e1e; /* Тёмный фон контейнера */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    animation: fadeIn 1.2s ease-in-out;
 }
 
 h1 {
-    font-size: 18px;
+    font-size: 22px;
     margin-bottom: 10px;
+    color: #0066ff; /* Синий текст заголовка */
+    font-weight: bold;
+    animation: slideDown 1s ease-in-out;
+}
+
+p {
+    font-size: 14px;
+    margin: 10px 0;
+    color: #e5e5e5; /* Светлый текст */
 }
 
 button {
     display: block;
     width: 100%;
-    margin: 10px 0;
-    padding: 10px;
-    border: none;
-    border-radius: 4px;
-    background-color: #0078d7;
+    margin: 20px 0;
+    padding: 12px;
+    border: 2px solid #0066ff;
+    border-radius: 8px;
+    background-color: #0066ff;
     color: white;
     cursor: pointer;
     font-size: 16px;
+    font-weight: bold;
+    transition: transform 0.2s ease, background-color 0.3s ease;
 }
 
 button:hover {
-    background-color: #005a9e;
+    transform: scale(1.03);
+    background-color: #0051cc; /* Более насыщенный синий при наведении */
+    border-color: #0051cc;
+}
+
+.indicator {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.circle {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: #ff0000; /* Красный, когда неактивен */
+    margin-bottom: 8px;
+    transition: background-color 0.3s ease;
+    animation: blink 2s infinite alternate;
 }
 
 #status {
-    margin-top: 10px;
     font-size: 14px;
-    color: white;
+    color: #e5e5e5; /* Светлый текст */
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-10px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes blink {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.6;
+    }
+    100% {
+        opacity: 1;
+    }
 }
