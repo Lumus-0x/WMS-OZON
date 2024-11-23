@@ -3,7 +3,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const statusText = document.getElementById('status');
     const indicatorCircle = document.querySelector('.circle');
 
-    // Массив для хранения идентификаторов кнопок и их меток
     const toggleButtons = [
         { id: 'toggleNews', key: 'newsActive', label: 'Новости' },
         { id: 'toggleTraining', key: 'trainingActive', label: 'Обучение' },
@@ -23,11 +22,18 @@ document.addEventListener('DOMContentLoaded', () => {
         button.textContent = isActive ? `Отключить ${label}` : `Включить ${label}`;
     }
 
+    function reloadTurboPvzTabs() {
+        chrome.tabs.query({ url: "https://turbo-pvz.ozon.ru/*" }, (tabs) => {
+            tabs.forEach(tab => {
+                chrome.tabs.reload(tab.id);
+            });
+        });
+    }
+
     chrome.storage.local.get(['extensionActive', ...toggleButtons.map(btn => btn.key)], result => {
         const isActive = result.extensionActive || false;
         updateUI(isActive);
-        
-        // Обновляем состояние для каждого переключателя
+
         toggleButtons.forEach(({ id, key, label }) => {
             const isToggleActive = result[key] || false;
             updateToggleButton(id, isToggleActive, label);
@@ -39,19 +45,18 @@ document.addEventListener('DOMContentLoaded', () => {
             const newState = !(result.extensionActive || false);
             chrome.storage.local.set({ extensionActive: newState }, () => {
                 updateUI(newState);
-                // Логика для выполнения скрипта при изменении состояния
+                reloadTurboPvzTabs();
             });
         });
     });
 
-    // Добавляем обработчики событий для новых переключателей
     toggleButtons.forEach(({ id, key, label }) => {
         document.getElementById(id).addEventListener('click', () => {
             chrome.storage.local.get([key], result => {
                 const newState = !(result[key] || false);
                 chrome.storage.local.set({ [key]: newState }, () => {
                     updateToggleButton(id, newState, label);
-                    // Логика для выполнения скрипта при изменении состояния
+                    reloadTurboPvzTabs();
                 });
             });
         });

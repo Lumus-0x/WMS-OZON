@@ -1,4 +1,9 @@
 let isExtensionActive = false;
+let toggleReviews = false;
+let toggleAddressStorage = false;
+let toggleOzonBank = false;
+let toggleTraining = false;
+let toggleNews = false;
 
 function activateModifications() {
     console.log('Активация модификаций...');
