@@ -57,6 +57,7 @@ function changeAddressBadge() {
         claimsNumber: document.querySelector('.ozi__text-view__textView__ff2BT.ozi__text-view__headline-h1__ff2BT.ozi-heading-600.ozi__text-view__light__ff2BT.ozi__text-view__paddingBottomOff__ff2BT.ozi__text-view__paddingTopOff__ff2BT')
     };
 
+
     if (elements.addressPriem) {
         const newAddress = elements.addressPriem.textContent.trim().startsWith('600-') ? 'КГТ-1' : 
                           elements.addressPriem.textContent.trim().startsWith('599-') ? 'КГТ-2' : 
@@ -90,7 +91,6 @@ function changeAddressBadge() {
 
 function removeCarriages() {
     const selectorsToRemove = [
-        '._filter_n3ctm_18',
         '.ozi__breadcrumbs__separator__DsxCI',
         '._filter_nvofz_1._filterWithStores_nvofz_7',
         '.ozi__breadcrumb-content__label__PKDFH.ozi-body-500',
