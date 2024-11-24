@@ -59,7 +59,8 @@ function changeAddressBadge() {
         addressPriem: document.querySelector('._addressBadge_mor7k_87.ozi-heading-500._addressBadgeDefault_mor7k_114'),
         profile: document.querySelector('.ozi__link-nuxt__linkNuxt__8oE33.ozi__link-common__onLight__QaR0v.ozi__link-common__primary__QaR0v._user_yzupa_17'),
         claimsMain: document.querySelector('.ozi__text-view__textView__ff2BT.ozi__text-view__headline-h1__ff2BT.ozi-heading-600.ozi__text-view__light__ff2BT.ozi__text-view__paddingTopOff__ff2BT'),
-        claimsNumber: document.querySelector('.ozi__text-view__textView__ff2BT.ozi__text-view__headline-h1__ff2BT.ozi-heading-600.ozi__text-view__light__ff2BT.ozi__text-view__paddingBottomOff__ff2BT.ozi__text-view__paddingTopOff__ff2BT')
+        claimsNumber: document.querySelector('.ozi__text-view__textView__ff2BT.ozi__text-view__headline-h1__ff2BT.ozi-heading-600.ozi__text-view__light__ff2BT.ozi__text-view__paddingBottomOff__ff2BT.ozi__text-view__paddingTopOff__ff2BT'),
+        version: document.querySelector('.ozi__text-view__textView__ff2BT.ozi__text-view__caption-small__ff2BT.ozi-body-400.ozi__text-view__light__ff2BT.ozi__text-view__paddingBottomOff__ff2BT.ozi__text-view__paddingTopOff__ff2BT.ozi__text-view__caption__ff2BT')
     };
 
 
@@ -74,6 +75,10 @@ function changeAddressBadge() {
                            badge.textContent.trim().startsWith('599-') ? 'КГТ-2' : 
                            badge.textContent;
     });
+
+    if (elements.version) {
+        elements.version.textContent = elements.version.textContent.trim().replace(/^Версия: 3.1.21/, "Очень хуёвая версия ПВЗ")
+    }
 
     if (elements.profile) {
         elements.profile.textContent = elements.profile.textContent.trim().replace(/^PVZ_/, 'Оператор WMS ');
