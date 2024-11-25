@@ -64,13 +64,13 @@ function changeAddressBadge() {
         searchButton : document.querySelector('.ozi__text-view__textView__ff2BT.ozi__text-view__headline-h2__ff2BT.ozi-heading-400.ozi__text-view__light__ff2BT.ozi__text-view__paddingBottomOff__ff2BT.ozi__text-view__paddingTopOff__ff2BT._title_85wpk_2')
     };
 
-
     if (elements.addressPriem) {
         const newAddress = elements.addressPriem.textContent.trim().startsWith('600-') ? 'КГТ-1' : 
                           elements.addressPriem.textContent.trim().startsWith('599-') ? 'КГТ-2' : 
                           elements.addressPriem.textContent;
         elements.addressPriem.textContent = newAddress;
     }
+    
     elements.addressBadges.forEach(badge => {
         badge.textContent = badge.textContent.trim().startsWith('600-') ? 'КГТ-1' : 
                            badge.textContent.trim().startsWith('599-') ? 'КГТ-2' : 

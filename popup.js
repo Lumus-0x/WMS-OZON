@@ -8,9 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 'toggleTraining', key: 'trainingActive', label: 'Обучение (не работает)' },
         { id: 'toggleOzonBank', key: 'ozonBankActive', label: 'OZON Банк (не работает)' },
         { id: 'toggleAddressStorage', key: 'addressStorageActive', label: 'Адресное Хранение (не работает)' },
-        { id: 'toggleReviews', key: 'reviewsActive', label:
-            
-            'Отзывы (не работает)' }
+        { id: 'toggleReviews', key: 'reviewsActive', label:'Отзывы (не работает)' }
     ];
 
     function updateUI(isActive) {
