@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updateOverlayStatusUI(isOverlayActive) {
-        overlayStatus.textContent = isOverlayActive ? 'Табличка включена' : 'Табличка выключена';
+        overlayStatus.textContent = isOverlayActive ? 'Блокировка включена' : 'Блокировка выключена';
         overlayStatus.style.color = isOverlayActive ? '#00cc66' : '#ff0000';
     }
 
