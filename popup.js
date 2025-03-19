@@ -2,14 +2,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const toggleButton = document.getElementById('toggleButton');
     const statusText = document.getElementById('status');
     const indicatorCircle = document.querySelector('.circle');
+    const overlayButton = document.getElementById('overlayButton');
+    const overlayStatus = document.getElementById('overlayStatus');
 
-    const toggleButtons = [
-        { id: 'toggleNews', key: 'newsActive', label: 'Новости (не работает)' },
-        { id: 'toggleTraining', key: 'trainingActive', label: 'Обучение (не работает)' },
-        { id: 'toggleOzonBank', key: 'ozonBankActive', label: 'OZON Банк (не работает)' },
-        { id: 'toggleAddressStorage', key: 'addressStorageActive', label: 'Адресное Хранение (не работает)' },
-        { id: 'toggleReviews', key: 'reviewsActive', label:'Отзывы (не работает)' }
-    ];
+    if (!toggleButton || !statusText || !indicatorCircle || !overlayButton || !overlayStatus) {
+        console.error("Один или несколько элементов не найдены в popup.html");
+        return;
+    }
 
     function updateUI(isActive) {
         toggleButton.textContent = isActive ? 'Отключить все модификации' : 'Включить все модификации';
@@ -17,46 +16,51 @@ document.addEventListener('DOMContentLoaded', () => {
         indicatorCircle.style.backgroundColor = isActive ? '#00cc66' : '#ff0000';
     }
 
-    function updateToggleButton(buttonId, isActive, label) {
-        const button = document.getElementById(buttonId);
-        button.textContent = isActive ? `Отключить ${label}` : `Включить ${label}`;
+    function updateOverlayStatusUI(isOverlayActive) {
+        overlayStatus.textContent = isOverlayActive ? 'Табличка включена' : 'Табличка выключена';
+        overlayStatus.style.color = isOverlayActive ? '#00cc66' : '#ff0000';
     }
 
     function reloadTurboPvzTabs() {
         chrome.tabs.query({ url: "https://turbo-pvz.ozon.ru/*" }, (tabs) => {
             tabs.forEach(tab => {
-                chrome.tabs.reload(tab.id);
+                chrome.tabs.reload(tab.id, { bypassCache: true }); // Принудительная перезагрузка
             });
         });
     }
 
-    chrome.storage.local.get(['extensionActive', ...toggleButtons.map(btn => btn.key)], result => {
-        const isActive = result.extensionActive || false;
-        updateUI(isActive);
+    chrome.storage.local.get(['extensionActive', 'overlayActive'], (result) => {
+        let extensionActive = result.extensionActive || false;
+        let overlayActive = result.overlayActive || false;
 
-        toggleButtons.forEach(({ id, key, label }) => {
-            const isToggleActive = result[key] || false;
-            updateToggleButton(id, isToggleActive, label);
-        });
-    });
+        updateUI(extensionActive);
+        updateOverlayStatusUI(overlayActive);
 
-    toggleButton.addEventListener('click', () => {
-        chrome.storage.local.get(['extensionActive'], result => {
-            const newState = !(result.extensionActive || false);
-            chrome.storage.local.set({ extensionActive: newState }, () => {
-                updateUI(newState);
+        toggleButton.addEventListener('click', () => {
+            extensionActive = !extensionActive;
+            chrome.storage.local.set({ extensionActive }, () => {
+                updateUI(extensionActive);
                 reloadTurboPvzTabs();
             });
         });
-    });
 
-    toggleButtons.forEach(({ id, key, label }) => {
-        document.getElementById(id).addEventListener('click', () => {
-            chrome.storage.local.get([key], result => {
-                const newState = !(result[key] || false);
-                chrome.storage.local.set({ [key]: newState }, () => {
-                    updateToggleButton(id, newState, label);
-                    reloadTurboPvzTabs();
+        overlayButton.addEventListener('click', () => {
+            overlayActive = !overlayActive;
+            chrome.storage.local.set({ overlayActive }, () => {
+                updateOverlayStatusUI(overlayActive);
+                chrome.tabs.query({ url: "https://turbo-pvz.ozon.ru/*" }, (tabs) => {
+                    tabs.forEach(tab => {
+                        chrome.scripting.executeScript({
+                            target: { tabId: tab.id },
+                            func: () => typeof changeAddressBadge !== 'undefined'
+                        }, (results) => {
+                            if (results && results[0].result) {
+                                chrome.tabs.sendMessage(tab.id, { action: 'toggleOverlay' });
+                            } else {
+                                chrome.tabs.reload(tab.id);
+                            }
+                        });
+                    });
                 });
             });
         });
