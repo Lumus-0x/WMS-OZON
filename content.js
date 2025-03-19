@@ -3,20 +3,45 @@ let isOverlayActive = false;
 
 function changeAddressBadge() {
     const elements = {
+        outbound: document.querySelector('.ozi__text-view__textView__ff2BT.ozi__text-view__headline-h2__ff2BT.ozi-heading-400.ozi__text-view__light__ff2BT.ozi__text-view__paddingBottomOff__ff2BT.ozi__text-view__paddingTopOff__ff2BT._title_85wpk_2'),
         versions: document.querySelector('.ozi__text-view__textView__ff2BT.ozi__text-view__caption-small__ff2BT.ozi-body-400.ozi__text-view__light__ff2BT.ozi__text-view__paddingBottomOff__ff2BT.ozi__text-view__paddingTopOff__ff2BT.ozi__text-view__caption__ff2BT'),
         nameTab: document.querySelector('.ozi__logo__projectTitle__-H66N.ozi-heading-300'),
         profile: document.querySelector('.ozi__link-nuxt__linkNuxt__8oE33.ozi__link-common__onLight__QaR0v.ozi__link-common__primary__QaR0v._user_yzupa_17'),
         claimsMain: document.querySelector('.ozi__text-view__textView__ff2BT.ozi__text-view__headline-h1__ff2BT.ozi-heading-600.ozi__text-view__light__ff2BT.ozi__text-view__paddingTopOff__ff2BT'),
         claimsNumber: document.querySelector('.ozi__text-view__textView__ff2BT.ozi__text-view__headline-h1__ff2BT.ozi-heading-600.ozi__text-view__light__ff2BT.ozi__text-view__paddingBottomOff__ff2BT.ozi__text-view__paddingTopOff__ff2BT'),
         loginInfo: document.querySelector('._title_1w123_89.ozi-heading-700'),
+        serachItemPole: document.querySelector('.ozi__text-view__textView__ff2BT.ozi__text-view__paragraph-medium__ff2BT.ozi-body-500.ozi__text-view__light__ff2BT'),
+        searchItem: document.querySelector('.ozi__text-view__textView__ff2BT.ozi__text-view__headline-h2__ff2BT.ozi-heading-400.ozi__text-view__light__ff2BT.ozi__text-view__paddingBottomOff__ff2BT.ozi__text-view__paddingTopOff__ff2BT._title_85wpk_2'),
+        quality_control: document.querySelector('.ozi__text-view__textView__ff2BT.ozi__text-view__headline-h2__ff2BT.ozi-heading-400.ozi__text-view__light__ff2BT.ozi__text-view__paddingBottomOff__ff2BT.ozi__text-view__paddingTopOff__ff2BT._title_85wpk_2'),
     };
 
-    // Отладка: выводим найденные элементы в консоль
+    // Отладка
     console.log('Найденные элементы:', elements);
 
+    if (elements.serachItemPole) {
+        console.log('Изменение serachItemPole:', elements.serachItemPole.textContent);
+        elements.serachItemPole.textContent = elements.serachItemPole.textContent.trim().replace(/Введите или отсканируйте номер предмета/, 'Введите или отсканируйте номер отправления');
+    }
+
+    // Преработать эллемент, не работает
+    if (elements.searchItems) { 
+        console.log('Изменение searchItems:', elements.searchItems.textContent);
+        elements.searchItems.textContent = elements.searchItems.textContent.trim().replace(/^Поиск предметов/, 'Поиск отправлений');
+    }
+
+    if (elements.outbound) {
+        console.log('Изменение outbound:', elements.outbound.textContent);
+        elements.outbound.textContent = elements.outbound.textContent.trim().replace(/^Отправка/, 'Оправка на склад МО_ДОМОДЕДОВО_1_ХАБ');
+    }
+
+    if (elements.quality_control) {      
+        console.log('Изменение quality_control:', elements.quality_control.textContent);
+        elements.quality_control.textContent = elements.quality_control.textContent.trim().replace(/^Проверка пункта/, 'Проверка ПВЗ на нарушния');
+    }
+    
     if (elements.versions) {
         console.log('Изменение versions:', elements.versions.textContent);
-        elements.versions.textContent = elements.versions.textContent.trim().replace(/^Версия: 3.2.4/, 'Кастомная WMS OZON 1.2.2');
+        elements.versions.textContent = elements.versions.textContent.trim().replace(/^Версия: 3.2.4/, 'Кастомная WMS OZON 1.2.3');
     }
 
     if (elements.loginInfo) {
@@ -50,6 +75,7 @@ function changeAddressBadge() {
 // Функция удаления элементов
 function removeCarriages() {
     const selectorsToRemove = [
+        '.ozi__informer__informer__HzSFx.ozi-body-500.ozi__informer__size-500__HzSFx.ozi__informer__warning__HzSFx.ozi__informer__showAccentLine__HzSFx',
         '.ozi__breadcrumbs__separator__DsxCI',
         '._filter_nvofz_1._filterWithStores_nvofz_7',
         '.ozi__breadcrumb-content__label__PKDFH.ozi-body-500',
@@ -80,6 +106,21 @@ function removeCarriages() {
     document.querySelectorAll('.ozi__menu-item__menuItem__8Dv5a').forEach(button => {
         const linkHref = button.closest('a')?.href;
         if (menuItemsToRemove.includes(linkHref)) {
+            button.remove();
+        }
+    });
+
+    const menu_outbound = [
+        'Тарные ящики',
+        'Отзывы',      
+        'Новости',
+        'Обучение',
+        'Адресное хранение'
+    ];
+
+    document.querySelectorAll('._item_1ghl9_1').forEach(button => {
+        const linkText = button.querySelector('.ozi__text-view__textView__ff2BT.ozi__text-view__headline-h4__ff2BT.ozi-heading-200.ozi__text-view__light__ff2BT')?.textContent?.trim();
+        if (menu_outbound.includes(linkText)) {
             button.remove();
         }
     });
