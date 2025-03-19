@@ -23,10 +23,9 @@ function changeAddressBadge() {
         elements.serachItemPole.textContent = elements.serachItemPole.textContent.trim().replace(/Введите или отсканируйте номер предмета/, 'Введите или отсканируйте номер отправления');
     }
 
-    // Преработать эллемент, не работает
-    if (elements.searchItems) { 
-        console.log('Изменение searchItems:', elements.searchItems.textContent);
-        elements.searchItems.textContent = elements.searchItems.textContent.trim().replace(/^Поиск предметов/, 'Поиск отправлений');
+    if (elements.searchItem) {
+        console.log('Изменение searchItem:', elements.searchItem.textContent);
+        elements.searchItem.textContent = elements.searchItem.textContent.trim().replace(/^Поиск предметов/, 'Поиск отправлений');
     }
 
     if (elements.outbound) {
@@ -87,7 +86,7 @@ function removeCarriages() {
         '.ozi__island__island__6OcbH.ozi-body-500.ozi__island__elevate__6OcbH.ozi__island__size-500__6OcbH.ozi__island__hoverable__6OcbH.ozi__island__cursor__6OcbH._button_1fzjv_1._toggler_1tvs3_23'
     ];
 
-    // Удаление элементов даже при открытой панели
+    // Удаление элементов
     selectorsToRemove.forEach(selector => {
         document.querySelectorAll(selector).forEach(element => {
             element.remove();
@@ -126,7 +125,7 @@ function removeCarriages() {
     });
 }
 
-// Оверлей
+// Оверлей (исправленная версия)
 function updateOverlayUI() {
     const existingOverlay = document.getElementById('customOverlay');
     if (isOverlayActive) {
@@ -144,14 +143,29 @@ function updateOverlayUI() {
             overlay.style.justifyContent = 'center';
             overlay.style.alignItems = 'center';
             overlay.style.zIndex = '9999';
-            overlay.innerHTML = `
-                <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 32 32">
-                    <path d="M16.0108 1C7.72377 0.994594 1.00541 7.70754 1 15.9892C0.994594 24.2762 7.70754 30.9946 15.9892 31C24.2708 31.0054 30.9946 24.2925 31 16.0108C31 16.0054 31 16 31 15.9892C31 7.71295 24.2871 1 16.0108 1ZM24.0058 15.9892C24.0058 20.4086 20.4248 23.9895 16.0108 23.9949C11.5914 24.0004 7.99964 20.4194 7.99423 16C7.98882 11.5806 11.5698 7.98882 15.9892 7.98341C20.4086 7.978 24.0004 11.559 24.0058 15.9784V15.9892Z" fill="#005BFF"></path>
-                </svg>
-                <p style="color: white; font-size: 24px; text-align: center; margin-top: 20px;">
-                    Система закрыта для выдачи и других операций до 9:00 по МСК
-                </p>
-            `;
+
+            // Создание SVG через DOM API
+            const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+            svg.setAttribute('width', '64');
+            svg.setAttribute('height', '64');
+            svg.setAttribute('viewBox', '0 0 32 32');
+
+            const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            path.setAttribute('d', 'M16.0108 1C7.72377 0.994594 1.00541 7.70754 1 15.9892C0.994594 24.2762 7.70754 30.9946 15.9892 31C24.2708 31.0054 30.9946 24.2925 31 16.0108C31 16.0054 31 16 31 15.9892C31 7.71295 24.2871 1 16.0108 1ZM24.0058 15.9892C24.0058 20.4086 20.4248 23.9895 16.0108 23.9949C11.5914 24.0004 7.99964 20.4194 7.99423 16C7.98882 11.5806 11.5698 7.98882 15.9892 7.98341C20.4086 7.978 24.0004 11.559 24.0058 15.9784V15.9892Z');
+            path.setAttribute('fill', '#005BFF');
+            svg.appendChild(path);
+
+            // Создание текста
+            const text = document.createElement('p');
+            text.textContent = 'Система закрыта для выдачи и других операций до 9:00 по МСК';
+            text.style.color = 'white';
+            text.style.fontSize = '24px';
+            text.style.textAlign = 'center';
+            text.style.marginTop = '20px';
+
+            overlay.appendChild(svg);
+            overlay.appendChild(text);
             document.body.appendChild(overlay);
         }
     } else {
@@ -228,7 +242,7 @@ observer.observe(document.body, {
     subtree: true,
 });
 
-// Обработчик события открытия панел
+// Обработчик события открытия панели
 document.addEventListener('click', (e) => {
     if (e.target.closest('.ozi__menu-item__button__8Dv5a.ozi__menu-item__roundHover__8Dv5a')) {
         setTimeout(removeCarriages, 300); // Задержка для анимации
