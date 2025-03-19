@@ -11,15 +11,16 @@
         <h1>WMS OZON</h1>
         <p>Инструменты модификации</p>
         <button id="toggleButton">Включить все модификации</button>
-        <button id="toggleNews">Включить отображение новостей</button>
-        <button id="toggleTraining">Включить обучение</button>
-        <button id="toggleOzonBank">Включить OZON банк</button>
-        <button id="toggleAddressStorage">Включить адресное хранение</button>
-        <button id="toggleReviews">Включить отзывы</button>
+        <button id="overlayButton">Блокировка</button>
         
         <div class="indicator">
             <div class="circle"></div>
             <p id="status">Статус: неактивно</p>
+        </div>
+
+        <!-- Блок для статуса оверлея -->
+        <div id="overlayStatusContainer">
+            <p id="overlayStatus">Табличка выключена</p>
         </div>
     </div>
     <script src="popup.js"></script>
