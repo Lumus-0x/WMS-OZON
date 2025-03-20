@@ -6,7 +6,7 @@
   "content_security_policy": {
     "extension_pages": "default-src 'self'"
   },
-  "permissions": ["storage", "activeTab", "scripting", "tabs"],
+  "permissions": ["storage", "activeTab", "scripting", "tabs", "webRequest"],
   "host_permissions": ["https://turbo-pvz.ozon.ru/*"],
   "content_scripts": [
     {
