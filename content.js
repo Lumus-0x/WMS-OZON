@@ -15,69 +15,61 @@ function changeAddressBadge() {
         quality_control: document.querySelector('.ozi__text-view__textView__ff2BT.ozi__text-view__headline-h2__ff2BT.ozi-heading-400.ozi__text-view__light__ff2BT.ozi__text-view__paddingBottomOff__ff2BT.ozi__text-view__paddingTopOff__ff2BT._title_85wpk_2'),
     };
 
-    // Отладка
-    console.log('Найденные элементы:', elements);
-
     if (elements.serachItemPole) {
-        console.log('Изменение serachItemPole:', elements.serachItemPole.textContent);
         elements.serachItemPole.textContent = elements.serachItemPole.textContent.trim().replace(/Введите или отсканируйте номер предмета/, 'Введите или отсканируйте номер отправления');
     }
 
     if (elements.searchItem) {
-        console.log('Изменение searchItem:', elements.searchItem.textContent);
         elements.searchItem.textContent = elements.searchItem.textContent.trim().replace(/^Поиск предметов/, 'Поиск отправлений');
     }
 
-    if (elements.outbound) {
-        console.log('Изменение outbound:', elements.outbound.textContent);
-        elements.outbound.textContent = elements.outbound.textContent.trim().replace(/^Отправка/, 'Оправка на склад МО_ДОМОДЕДОВО_1_ХАБ');
-    }
-
     if (elements.quality_control) {      
-        console.log('Изменение quality_control:', elements.quality_control.textContent);
         elements.quality_control.textContent = elements.quality_control.textContent.trim().replace(/^Проверка пункта/, 'Проверка ПВЗ на нарушния');
     }
     
     if (elements.versions) {
-        console.log('Изменение versions:', elements.versions.textContent);
-        elements.versions.textContent = elements.versions.textContent.trim().replace(/^Версия: 3.2.4/, 'Кастомная WMS OZON 1.2.3');
+        elements.versions.textContent = elements.versions.textContent.trim().replace(/^Версия: 3.2.9/, 'Кастомная WMS OZON 1.2.4');
         elements.versions.style.fontFamily = 'Pacifico, cursive';
         elements.versions.style.fontSize = '13px';
         elements.versions.style.color = '#778899';
     }
 
     if (elements.loginInfo) {
-        console.log('Изменение loginInfo:', elements.loginInfo.textContent);
         elements.loginInfo.textContent = elements.loginInfo.textContent.trim().replace(/^Управление заказами ПВЗ/, 'Вход в систему OZON WMS');
     }
 
     if (elements.profile) {
-        console.log('Изменение profile:', elements.profile.textContent);
         elements.profile.textContent = elements.profile.textContent.trim().replace(/^PVZ_/, 'Оператор WMS ');
     }
 
     if (elements.nameTab) {
-        console.log('Изменение nameTab:', elements.nameTab.textContent);
         elements.nameTab.textContent = elements.nameTab.textContent.trim().replace(/^Турбо ПВЗ/, 'OZON WMS');
     }
 
     if (elements.claimsNumber) {
-        console.log('Изменение claimsNumber:', elements.claimsNumber.textContent);
         elements.claimsNumber.textContent = elements.claimsNumber.textContent.trim().replace(/^Претензия/, 'Непонятная фигня ');
     }
 
     if (elements.claimsMain) {
-        console.log('Изменение claimsMain:', elements.claimsMain.textContent);
         elements.claimsMain.textContent = elements.claimsMain.textContent.trim().replace(/^Список обращений/, 'Список бредней OZON');
     }
 
-    removeCarriages();
+    if (isExtensionActive) {
+        removeCarriages();
+    }
 }
 
-// Функция удаления элементов
 function removeCarriages() {
+    // Удаление специфичного элемента с проверкой текста
+    document.querySelectorAll('.ozi__informer__informer__HzSFx.ozi__informer__warning__HzSFx').forEach(element => {
+        const warningText = element.querySelector('.ozi__data-content__label__tXF2r');
+        if (warningText && warningText.textContent.trim() === 'Возврат товаров без заявки запрещен') {
+            element.remove();
+            console.log('Целевой элемент удален');
+        }
+    });
+
     const selectorsToRemove = [
-        '.ozi__informer__informer__HzSFx.ozi-body-500.ozi__informer__size-500__HzSFx.ozi__informer__warning__HzSFx.ozi__informer__showAccentLine__HzSFx',
         '.ozi__breadcrumbs__separator__DsxCI',
         '._filter_nvofz_1._filterWithStores_nvofz_7',
         '.ozi__breadcrumb-content__label__PKDFH.ozi-body-500',
@@ -85,18 +77,15 @@ function removeCarriages() {
         '._right_1w123_35',
         '._disclaimer_10nno_1.ozi-label-300',
         '.ozi__link-pseudo__linkPseudo__9vjoS.ozi__link-common__onLight__QaR0v.ozi__link-common__primary__QaR0v._link_1w123_47.ozi-body-500-true._marginFromLink_1w123_55',
-        '.ozi__informer__informer__HzSFx.ozi-body-500.ozi__informer__size-500__HzSFx.ozi__informer__info__HzSFx.ozi__informer__showAccentLine__HzSFx',
         '.ozi__island__island__6OcbH.ozi-body-500.ozi__island__elevate__6OcbH.ozi__island__size-500__6OcbH.ozi__island__hoverable__6OcbH.ozi__island__cursor__6OcbH._button_1fzjv_1._toggler_1tvs3_23'
     ];
 
-    // Удаление элементов
     selectorsToRemove.forEach(selector => {
         document.querySelectorAll(selector).forEach(element => {
             element.remove();
         });
     });
 
-    // Динамические элементы меню
     const menuItemsToRemove = [
         'https://turbo-pvz.ozon.ru/news',
         'https://turbo-pvz.ozon.ru/learning',
@@ -128,7 +117,6 @@ function removeCarriages() {
     });
 }
 
-// Оверлей (исправленная версия)
 function updateOverlayUI() {
     const existingOverlay = document.getElementById('customOverlay');
     if (isOverlayActive) {
@@ -147,7 +135,6 @@ function updateOverlayUI() {
             overlay.style.alignItems = 'center';
             overlay.style.zIndex = '9999';
 
-            // Создание SVG через DOM API
             const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
             svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
             svg.setAttribute('width', '64');
@@ -159,7 +146,6 @@ function updateOverlayUI() {
             path.setAttribute('fill', '#005BFF');
             svg.appendChild(path);
 
-            // Создание текста
             const text = document.createElement('p');
             text.textContent = 'Система закрыта для выдачи и других операций до 9:00 по МСК';
             text.style.color = 'white';
@@ -178,7 +164,6 @@ function updateOverlayUI() {
     }
 }
 
-// Проверка состояния расширения
 function checkExtensionState() {
     chrome.storage.local.get(['extensionActive', 'overlayActive'], result => {
         isExtensionActive = result.extensionActive || false;
@@ -201,10 +186,8 @@ function activateModifications() {
 function deactivateModifications() {
     console.log('Деактивация модификаций...');
     isExtensionActive = false;
-    removeCarriages();
 }
 
-// Обработчик сообщений
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.action === 'toggleExtension') {
         isExtensionActive = !isExtensionActive;
@@ -212,7 +195,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             if (isExtensionActive) {
                 activateModifications();
             } else {
-                deactivateModifications();
+                window.location.reload();
             }
             sendResponse({ status: isExtensionActive ? 'Активировано' : 'Деактивировано' });
         });
@@ -239,20 +222,17 @@ const observer = new MutationObserver(mutations => {
     }
 });
 
-// Наблюдаем за изменениями в body и всех его поддеревьях
 observer.observe(document.body, {
     childList: true,
     subtree: true,
 });
 
-// Обработчик события открытия панели
 document.addEventListener('click', (e) => {
-    if (e.target.closest('.ozi__menu-item__button__8Dv5a.ozi__menu-item__roundHover__8Dv5a')) {
-        setTimeout(removeCarriages, 300); // Задержка для анимации
+    if (isExtensionActive && e.target.closest('.ozi__menu-item__button__8Dv5a.ozi__menu-item__roundHover__8Dv5a')) {
+        setTimeout(removeCarriages, 300);
     }
 });
 
-// Восстановление состояния при загрузке
 window.addEventListener('load', () => {
     checkExtensionState();
     chrome.storage.local.get(['overlayActive'], result => {
