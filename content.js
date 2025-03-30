@@ -10,25 +10,14 @@ function changeAddressBadge() {
         claimsMain: document.querySelector('.ozi__text-view__textView__ff2BT.ozi__text-view__headline-h1__ff2BT.ozi-heading-600.ozi__text-view__light__ff2BT.ozi__text-view__paddingTopOff__ff2BT'),
         claimsNumber: document.querySelector('.ozi__text-view__textView__ff2BT.ozi__text-view__headline-h1__ff2BT.ozi-heading-600.ozi__text-view__light__ff2BT.ozi__text-view__paddingBottomOff__ff2BT.ozi__text-view__paddingTopOff__ff2BT'),
         loginInfo: document.querySelector('._title_1w123_89.ozi-heading-700'),
-        serachItemPole: document.querySelector('.ozi__text-view__textView__ff2BT.ozi__text-view__paragraph-medium__ff2BT.ozi-body-500.ozi__text-view__light__ff2BT'),
-        searchItem: document.querySelector('.ozi__text-view__textView__ff2BT.ozi__text-view__headline-h2__ff2BT.ozi-heading-400.ozi__text-view__light__ff2BT.ozi__text-view__paddingBottomOff__ff2BT.ozi__text-view__paddingTopOff__ff2BT._title_85wpk_2'),
-        quality_control: document.querySelector('.ozi__text-view__textView__ff2BT.ozi__text-view__headline-h2__ff2BT.ozi-heading-400.ozi__text-view__light__ff2BT.ozi__text-view__paddingBottomOff__ff2BT.ozi__text-view__paddingTopOff__ff2BT._title_85wpk_2'),
-    };
+        serachItemPole: document.querySelector('.ozi__text-view__textView__ff2BT.ozi__text-view__paragraph-medium__ff2BT.ozi-body-500.ozi__text-view__light__ff2BT'),    };
 
     if (elements.serachItemPole) {
         elements.serachItemPole.textContent = elements.serachItemPole.textContent.trim().replace(/Введите или отсканируйте номер предмета/, 'Введите или отсканируйте номер отправления');
     }
-
-    if (elements.searchItem) {
-        elements.searchItem.textContent = elements.searchItem.textContent.trim().replace(/^Поиск предметов/, 'Поиск отправлений');
-    }
-
-    if (elements.quality_control) {      
-        elements.quality_control.textContent = elements.quality_control.textContent.trim().replace(/^Проверка пункта/, 'Проверка ПВЗ на нарушния');
-    }
     
     if (elements.versions) {
-        elements.versions.textContent = elements.versions.textContent.trim().replace(/^Версия: 3.2.9/, 'Кастомная WMS OZON 1.2.4');
+        elements.versions.textContent = elements.versions.textContent.trim().replace(/^Версия: 3.2.9/, 'Кастомная WMS OZON 1.2.4.1');
         elements.versions.style.fontFamily = 'Pacifico, cursive';
         elements.versions.style.fontSize = '13px';
         elements.versions.style.color = '#778899';

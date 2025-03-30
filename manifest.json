@@ -1,12 +1,12 @@
 {
   "manifest_version": 3,
   "name": "WMS OZON",
-  "version": "1.2.4",
+  "version": "1.2.4.1",
   "description": "Неофициальное приложение для модификации системы турбо ПВЗ",
   "content_security_policy": {
     "extension_pages": "default-src 'self'"
   },
-  "permissions": ["storage", "activeTab", "scripting", "tabs", "webRequest"],
+  "permissions": ["storage", "activeTab", "scripting", "tabs"],
   "host_permissions": ["https://turbo-pvz.ozon.ru/*"],
   "content_scripts": [
     {
