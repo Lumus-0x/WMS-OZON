@@ -49,7 +49,7 @@ function changeAddressBadge() {
 }
 
 function removeCarriages() {
-    // Удаление специфичного элемента с проверкой текста
+    // Удаление специфичного элемента с проверкoй текста
     document.querySelectorAll('.ozi__informer__informer__HzSFx.ozi__informer__warning__HzSFx').forEach(element => {
         const warningText = element.querySelector('.ozi__data-content__label__tXF2r');
         if (warningText && warningText.textContent.trim() === 'Возврат товаров без заявки запрещен') {
