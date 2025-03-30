@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function reloadTurboPvzTabs() {
         chrome.tabs.query({ url: "https://turbo-pvz.ozon.ru/*" }, (tabs) => {
             tabs.forEach(tab => {
-                chrome.tabs.reload(tab.id, { bypassCache: true }); // Принудительная перезагрузка
+                chrome.tabs.reload(tab.id, { bypassCache: true });
             });
         });
     }
@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         chrome.scripting.executeScript({
                             target: { tabId: tab.id },
                             func: () => typeof changeAddressBadge !== 'undefined'
-                        }, (results) => {
+                        }, (results) => { 
                             if (results && results[0].result) {
                                 chrome.tabs.sendMessage(tab.id, { action: 'toggleOverlay' });
                             } else {
