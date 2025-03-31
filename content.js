@@ -17,7 +17,7 @@ function changeAddressBadge() {
     }
     
     if (elements.versions) {
-        elements.versions.textContent = elements.versions.textContent.trim().replace(/^Версия: 3.2.9/, 'Кастомная WMS OZON 1.2.4.1');
+        elements.versions.textContent = elements.versions.textContent.trim().replace(/^Версия: 3.2.11/, 'Кастомная WMS OZON 1.2.4.2');
         elements.versions.style.fontFamily = 'Pacifico, cursive';
         elements.versions.style.fontSize = '13px';
         elements.versions.style.color = '#778899';
