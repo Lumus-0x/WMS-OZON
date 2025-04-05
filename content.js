@@ -1,107 +1,151 @@
 let isExtensionActive = false;
 let isOverlayActive = false;
 
+function checkExtensionValidity() {
+    try {
+        return !!chrome.runtime?.id;
+    } catch (e) {
+        return false;
+    }
+}
+
 function changeAddressBadge() {
-    const elements = {
-        outbound: document.querySelector('.ozi__text-view__textView__ff2BT.ozi__text-view__headline-h2__ff2BT.ozi-heading-400.ozi__text-view__light__ff2BT.ozi__text-view__paddingBottomOff__ff2BT.ozi__text-view__paddingTopOff__ff2BT._title_85wpk_2'),
-        versions: document.querySelector('.ozi__text-view__textView__ff2BT.ozi__text-view__caption-small__ff2BT.ozi-body-400.ozi__text-view__light__ff2BT.ozi__text-view__paddingBottomOff__ff2BT.ozi__text-view__paddingTopOff__ff2BT.ozi__text-view__caption__ff2BT'),
-        nameTab: document.querySelector('.ozi__logo__projectTitle__-H66N.ozi-heading-300'),
-        profile: document.querySelector('.ozi__link-nuxt__linkNuxt__8oE33.ozi__link-common__onLight__QaR0v.ozi__link-common__primary__QaR0v._user_yzupa_17'),
-        claimsMain: document.querySelector('.ozi__text-view__textView__ff2BT.ozi__text-view__headline-h1__ff2BT.ozi-heading-600.ozi__text-view__light__ff2BT.ozi__text-view__paddingTopOff__ff2BT'),
-        claimsNumber: document.querySelector('.ozi__text-view__textView__ff2BT.ozi__text-view__headline-h1__ff2BT.ozi-heading-600.ozi__text-view__light__ff2BT.ozi__text-view__paddingBottomOff__ff2BT.ozi__text-view__paddingTopOff__ff2BT'),
-        loginInfo: document.querySelector('._title_1w123_89.ozi-heading-700'),
-        serachItemPole: document.querySelector('.ozi__text-view__textView__ff2BT.ozi__text-view__paragraph-medium__ff2BT.ozi-body-500.ozi__text-view__light__ff2BT'),    };
-
-    if (elements.serachItemPole) {
-        elements.serachItemPole.textContent = elements.serachItemPole.textContent.trim().replace(/Введите или отсканируйте номер предмета/, 'Введите или отсканируйте номер отправления');
-    }
-    
-    if (elements.versions) {
-        elements.versions.textContent = elements.versions.textContent.trim().replace(/^Версия: 3.2.11/, 'Кастомная WMS OZON 1.2.4.2');
-        elements.versions.style.fontFamily = 'Pacifico, cursive';
-        elements.versions.style.fontSize = '13px';
-        elements.versions.style.color = '#778899';
+    if (!checkExtensionValidity()) {
+        console.error('Extension context invalidated. Reloading...');
+        window.location.reload();
+        return;
     }
 
-    if (elements.loginInfo) {
-        elements.loginInfo.textContent = elements.loginInfo.textContent.trim().replace(/^Управление заказами ПВЗ/, 'Вход в систему OZON WMS');
-    }
+    try {
+        chrome.storage.local.get('renameSettings', function(result) {
+            if (!checkExtensionValidity()) return;
+            
+            const settings = result.renameSettings || {};
+            const elements = {
+                outbound: document.querySelector('.ozi__text-view__textView__ff2BT.ozi__text-view__headline-h2__ff2BT.ozi-heading-400.ozi__text-view__light__ff2BT.ozi__text-view__paddingBottomOff__ff2BT.ozi__text-view__paddingTopOff__ff2BT._title_85wpk_2'),
+                versions: document.querySelector('.ozi__text-view__textView__ff2BT.ozi__text-view__caption-small__ff2BT.ozi-body-400.ozi__text-view__light__ff2BT.ozi__text-view__paddingBottomOff__ff2BT.ozi__text-view__paddingTopOff__ff2BT.ozi__text-view__caption__ff2BT'),
+                nameTab: document.querySelector('.ozi__logo__projectTitle__-H66N.ozi-heading-300'),
+                profile: document.querySelector('.ozi__link-nuxt__linkNuxt__8oE33.ozi__link-common__onLight__QaR0v.ozi__link-common__primary__QaR0v._user_yzupa_17'),
+                claimsMain: document.querySelector('.ozi__text-view__textView__ff2BT.ozi__text-view__headline-h1__ff2BT.ozi-heading-600.ozi__text-view__light__ff2BT.ozi__text-view__paddingTopOff__ff2BT'),
+                claimsNumber: document.querySelector('.ozi__text-view__textView__ff2BT.ozi__text-view__headline-h1__ff2BT.ozi-heading-600.ozi__text-view__light__ff2BT.ozi__text-view__paddingBottomOff__ff2BT.ozi__text-view__paddingTopOff__ff2BT'),
+                loginInfo: document.querySelector('._title_1w123_89.ozi-heading-700'),
+                serachItemPole: document.querySelector('.ozi__text-view__textView__ff2BT.ozi__text-view__paragraph-medium__ff2BT.ozi-body-500.ozi__text-view__light__ff2BT'),
+            };
 
-    if (elements.profile) {
-        elements.profile.textContent = elements.profile.textContent.trim().replace(/^PVZ_/, 'Оператор WMS ');
-    }
+            if (elements.serachItemPole) {
+                elements.serachItemPole.textContent = elements.serachItemPole.textContent.trim().replace(/Введите или отсканируйте номер предмета/, settings.searchField || 'Введите или отсканируйте номер отправления');
+            }
+            
+            if (elements.versions) {
+                elements.versions.textContent = elements.versions.textContent.trim().replace(/^Версия: 3.2.17/, settings.versionField || 'Кастомная WMS OZON 1.2.5');
+                elements.versions.style.fontFamily = 'Pacifico, cursive';
+                elements.versions.style.fontSize = '13px';
+                elements.versions.style.color = '#778899';
+            }
 
-    if (elements.nameTab) {
-        elements.nameTab.textContent = elements.nameTab.textContent.trim().replace(/^Турбо ПВЗ/, 'OZON WMS');
-    }
+            if (elements.loginInfo) {
+                elements.loginInfo.textContent = elements.loginInfo.textContent.trim().replace(/^Управление заказами ПВЗ/, settings.loginTitle || 'Вход в систему OZON WMS');
+            }
 
-    if (elements.claimsNumber) {
-        elements.claimsNumber.textContent = elements.claimsNumber.textContent.trim().replace(/^Претензия/, 'Непонятная фигня ');
-    }
+            if (elements.profile) {
+                elements.profile.textContent = elements.profile.textContent.trim().replace(/^PVZ_/, settings.profilePrefix || 'Оператор WMS ');
+            }
 
-    if (elements.claimsMain) {
-        elements.claimsMain.textContent = elements.claimsMain.textContent.trim().replace(/^Список обращений/, 'Список бредней OZON');
-    }
+            if (elements.nameTab) {
+                elements.nameTab.textContent = elements.nameTab.textContent.trim().replace(/^Турбо ПВЗ/, settings.tabName || 'OZON WMS');
+            }
 
-    if (isExtensionActive) {
-        removeCarriages();
+            if (elements.claimsNumber) {
+                elements.claimsNumber.textContent = elements.claimsNumber.textContent.trim().replace(/^Претензия/, settings.claimReplacement || 'Непонятная фигня ');
+            }
+
+            if (elements.claimsMain) {
+                elements.claimsMain.textContent = elements.claimsMain.textContent.trim().replace(/^Список обращений/, settings.claimListReplacement || 'Список бредней OZON');
+            }
+
+            if (isExtensionActive) {
+                removeCarriages();
+            }
+        });
+    } catch (e) {
+        console.error('Storage access error:', e);
     }
 }
 
 function removeCarriages() {
-    // Удаление специфичного элемента с проверкoй текста
-    document.querySelectorAll('.ozi__informer__informer__HzSFx.ozi__informer__warning__HzSFx').forEach(element => {
-        const warningText = element.querySelector('.ozi__data-content__label__tXF2r');
-        if (warningText && warningText.textContent.trim() === 'Возврат товаров без заявки запрещен') {
-            element.remove();
-            console.log('Целевой элемент удален');
+    chrome.storage.local.get(['deleteSettings'], result => {
+        const settings = result.deleteSettings || {};
+
+        if (settings.remove_info_informers) {
+            document.querySelectorAll('.ozi__informer__informer__HzSFx.ozi-body-500.ozi__informer__size-500__HzSFx.ozi__informer__info__HzSFx.ozi__informer__showAccentLine__HzSFx').forEach(el => el.remove());
         }
-    });
-
-    const selectorsToRemove = [
-        '.ozi__breadcrumbs__separator__DsxCI',
-        '._filter_nvofz_1._filterWithStores_nvofz_7',
-        '.ozi__breadcrumb-content__label__PKDFH.ozi-body-500',
-        '._qrBlock_1w123_71',
-        '._right_1w123_35',
-        '._disclaimer_10nno_1.ozi-label-300',
-        '.ozi__link-pseudo__linkPseudo__9vjoS.ozi__link-common__onLight__QaR0v.ozi__link-common__primary__QaR0v._link_1w123_47.ozi-body-500-true._marginFromLink_1w123_55',
-        '.ozi__island__island__6OcbH.ozi-body-500.ozi__island__elevate__6OcbH.ozi__island__size-500__6OcbH.ozi__island__hoverable__6OcbH.ozi__island__cursor__6OcbH._button_1fzjv_1._toggler_1tvs3_23'
-    ];
-
-    selectorsToRemove.forEach(selector => {
-        document.querySelectorAll(selector).forEach(element => {
-            element.remove();
-        });
-    });
-
-    const menuItemsToRemove = [
-        'https://turbo-pvz.ozon.ru/news',
-        'https://turbo-pvz.ozon.ru/learning',
-        'https://turbo-pvz.ozon.ru/bank/requests',
-        'https://turbo-pvz.ozon.ru/address_storage',
-        'https://turbo-pvz.ozon.ru/rating'
-    ];
-
-    document.querySelectorAll('.ozi__menu-item__menuItem__8Dv5a').forEach(button => {
-        const linkHref = button.closest('a')?.href;
-        if (menuItemsToRemove.includes(linkHref)) {
-            button.remove();
+        
+        if (settings.remove_breadcrumbs_separator) {
+            document.querySelectorAll('.ozi__breadcrumbs__separator__DsxCI').forEach(el => el.remove());
         }
-    });
+        
+        if (settings.remove_filters) {
+            document.querySelectorAll('._filter_nvofz_1._filterWithStores_nvofz_7').forEach(el => el.remove());
+        }
+        
+        if (settings.remove_breadcrumb_labels) {
+            document.querySelectorAll('.ozi__breadcrumb-content__label__PKDFH.ozi-body-500').forEach(el => el.remove());
+        }
+        
+        if (settings.remove_qr_block) {
+            document.querySelectorAll('._qrBlock_1w123_71').forEach(el => el.remove());
+        }
+        
+        if (settings.remove_right_block) {
+            document.querySelectorAll('._right_1w123_35').forEach(el => el.remove());
+        }
+        
+        if (settings.remove_disclaimer) {
+            document.querySelectorAll('._disclaimer_10nno_1.ozi-label-300').forEach(el => el.remove());
+        }
+        
+        if (settings.remove_links) {
+            document.querySelectorAll('.ozi__link-pseudo__linkPseudo__9vjoS.ozi__link-common__onLight__QaR0v.ozi__link-common__primary__QaR0v._link_1w123_47.ozi-body-500-true._marginFromLink_1w123_55').forEach(el => el.remove());
+        }
+        
+        if (settings.remove_islands) {
+            document.querySelectorAll('.ozi__island__island__6OcbH.ozi-body-500.ozi__island__elevate__6OcbH.ozi__island__size-500__6OcbH.ozi__island__hoverable__6OcbH.ozi__island__cursor__6OcbH._button_1fzjv_1._toggler_1tvs3_23').forEach(el => el.remove());
+        }
 
-    const menu_outbound = [
-        'Тарные ящики',
-        'Отзывы',      
-        'Новости',
-        'Обучение',
-        'Адресное хранение'
-    ];
+        // Удаление элементов меню по URL
+        if (settings.remove_menu_items) {
+            const menuItemsToRemove = [
+                'https://turbo-pvz.ozon.ru/news',
+                'https://turbo-pvz.ozon.ru/learning',
+                'https://turbo-pvz.ozon.ru/bank/requests',
+                'https://turbo-pvz.ozon.ru/address_storage',
+                'https://turbo-pvz.ozon.ru/rating'
+            ];
 
-    document.querySelectorAll('._item_1ghl9_1').forEach(button => {
-        const linkText = button.querySelector('.ozi__text-view__textView__ff2BT.ozi__text-view__headline-h4__ff2BT.ozi-heading-200.ozi__text-view__light__ff2BT')?.textContent?.trim();
-        if (menu_outbound.includes(linkText)) {
-            button.remove();
+            document.querySelectorAll('.ozi__menu-item__menuItem__8Dv5a').forEach(button => {
+                const linkHref = button.closest('a')?.href;
+                if (menuItemsToRemove.includes(linkHref)) {
+                    button.remove();
+                }
+            });
+        }
+
+        // Удаление элементов меню по тексту
+        if (settings.remove_outbound_items) {
+            const menu_outbound = [
+                'Тарные ящики',
+                'Отзывы',      
+                'Новости',
+                'Обучение',
+                'Адресное хранение'
+            ];
+
+            document.querySelectorAll('._item_1ghl9_1').forEach(button => {
+                const linkText = button.querySelector('.ozi__text-view__textView__ff2BT.ozi__text-view__headline-h4__ff2BT.ozi-heading-200.ozi__text-view__light__ff2BT')?.textContent?.trim();
+                if (menu_outbound.includes(linkText)) {
+                    button.remove();
+                }
+            });
         }
     });
 }
@@ -154,16 +198,24 @@ function updateOverlayUI() {
 }
 
 function checkExtensionState() {
-    chrome.storage.local.get(['extensionActive', 'overlayActive'], result => {
-        isExtensionActive = result.extensionActive || false;
-        isOverlayActive = result.overlayActive || false;
-        if (isExtensionActive) {
-            activateModifications();
-        } else {
-            deactivateModifications();
-        }
-        updateOverlayUI();
-    });
+    if (!checkExtensionValidity()) return;
+
+    try {
+        chrome.storage.local.get(['extensionActive', 'overlayActive'], result => {
+            if (!checkExtensionValidity()) return;
+            
+            isExtensionActive = result.extensionActive || false;
+            isOverlayActive = result.overlayActive || false;
+            if (isExtensionActive) {
+                activateModifications();
+            } else {
+                deactivateModifications();
+            }
+            updateOverlayUI();
+        });
+    } catch (e) {
+        console.error('Storage access error:', e);
+    }
 }
 
 function activateModifications() {

@@ -9,18 +9,79 @@
 <body>
     <div class="popup-container">
         <h1>WMS OZON</h1>
-        <p>Инструменты модификации</p>
-        <button id="toggleButton">Включить все модификации</button>
-        <button id="overlayButton">Блокировка</button>
-        
-        <div class="indicator">
-            <div class="circle"></div>
-            <p id="status">Статус: неактивно</p>
+        <div class="tabs">
+            <button class="tab-button active" data-tab="main">Общие</button>
+            <button class="tab-button" data-tab="rename-settings">Переименования</button>
+            <button class="tab-button" data-tab="delete-settings">Удалители</button>
         </div>
 
-        <!-- Блок для статуса оверлея -->
-        <div id="overlayStatusContainer">
-            <p id="overlayStatus">Табличка выключена</p>
+        <div id="main" class="tab-content active">
+            <div class="content-section">
+                <p>Инструменты и модификации</p>
+                <button id="toggleButton">Включить все модификации</button>
+                <button id="overlayButton">Блокировка</button>
+
+                <div class="indicator">
+                    <div class="circle"></div>
+                    <p id="status">Статус: неактивно</p>
+                </div>
+
+                <div id="overlayStatusContainer">
+                    <p id="overlayStatus">Табличка выключена</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="rename-settings" class="tab-content">
+            <div class="content-section">
+                <h2>Настройки переименований</h2>
+                <form id="renameSettings">
+                    <div class="form-grid">
+                        <label>
+                            <span>Поле поиска:</span>
+                            <input type="text" id="searchField" placeholder="Введите или отсканируйте номер отправления">
+                        </label>
+                        <label>
+                            <span>Версия:</span>
+                            <input type="text" id="versionField" placeholder="Кастомная WMS OZON 1.3.0">
+                        </label>
+                        <label>
+                            <span>Заголовок входа:</span>
+                            <input type="text" id="loginTitle" placeholder="Вход в систему OZON WMS">
+                        </label>
+                        <label>
+                            <span>Префикс профиля:</span>
+                            <input type="text" id="profilePrefix" placeholder="Оператор WMS">
+                        </label>
+                        <label>
+                            <span>Название заголовка:</span>
+                            <input type="text" id="tabName" placeholder="OZON WMS">
+                        </label>
+                        <label>
+                            <span>Замена "Претензия":</span>
+                            <input type="text" id="claimReplacement" placeholder="Непонятная фигня">
+                        </label>
+                        <label>
+                            <span>Замена "Притензий №":</span>
+                            <input type="text" id="claimListReplacement" placeholder="Список бредней OZON">
+                        </label>
+                    </div>
+                    <button type="submit">Сохранить настройки</button>
+                </form>
+            </div>
+        </div>
+
+        <div id="delete-settings" class="tab-content">
+            <div class="content-section">
+                <h2>Настройка удалений</h2>
+                <h3 class="test-title">
+                    Этот раздел не до конца доработан, просьба уведомлять разработчика о любых недоделках и багах на страничке Chrome или GitHub, а так-же Telegram
+                </h3>
+                <form id="deleteSettings">
+                    <div class="switch-container" id="deleteSwitches"></div>
+                    <button type="submit">Сохранить выбор</button>
+                </form>
+            </div>
         </div>
     </div>
     <script src="popup.js"></script>
