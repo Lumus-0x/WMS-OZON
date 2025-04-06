@@ -10,78 +10,78 @@ document.addEventListener('DOMContentLoaded', function() {
     const deleteSettingsForm = document.getElementById('deleteSettings');
     const deleteSwitchesContainer = document.getElementById('deleteSwitches');
 
-        // Конфигурация элементов для удаления
-        const deleteConfig = [
-            { 
-                id: 'remove_info_informers',
-                selector: '.ozi__informer__informer__HzSFx.ozi-body-500.ozi__informer__size-500__HzSFx.ozi__informer__info__HzSFx.ozi__informer__showAccentLine__HzSFx',
-                label: 'Информационные уведомления'
-            },
-            { 
-                id: 'remove_breadcrumbs_separator',
-                selector: '.ozi__breadcrumbs__separator__DsxCI',
-                label: 'Разделители'
-            },
-            { 
-                id: 'remove_filters',
-                selector: '._filter_nvofz_1._filterWithStores_nvofz_7',
-                label: 'Фильтры'
-            },
-            { 
-                id: 'remove_breadcrumb_labels',
-                selector: '.ozi__breadcrumb-content__label__PKDFH.ozi-body-500',
-                label: 'Метки навигации'
-            },
-            { 
-                id: 'remove_qr_block',
-                selector: '._qrBlock_1w123_71',
-                label: 'QR-блок'
-            },
-            { 
-                id: 'remove_right_block',
-                selector: '._right_1w123_35',
-                label: 'Правый блок'
-            },
-            { 
-                id: 'remove_disclaimer',
-                selector: '._disclaimer_10nno_1.ozi-label-300',
-                label: 'Дисклеймер'
-            },
-            { 
-                id: 'remove_links',
-                selector: '.ozi__link-pseudo__linkPseudo__9vjoS.ozi__link-common__onLight__QaR0v.ozi__link-common__primary__QaR0v._link_1w123_47.ozi-body-500-true._marginFromLink_1w123_55',
-                label: 'Элементы меню'
-            },
-            { 
-                id: 'remove_islands',
-                selector: '.ozi__island__island__6OcbH.ozi-body-500.ozi__island__elevate__6OcbH.ozi__island__size-500__6OcbH.ozi__island__hoverable__6OcbH.ozi__island__cursor__6OcbH._button_1fzjv_1._toggler_1tvs3_23',
-                label: 'Всплывающие элементы меню'
-            },
-            { 
-                id: 'remove_menu_items',
-                type: 'menu',
-                items: [
-                    'https://turbo-pvz.ozon.ru/news',
-                    'https://turbo-pvz.ozon.ru/learning',
-                    'https://turbo-pvz.ozon.ru/bank/requests',
-                    'https://turbo-pvz.ozon.ru/address_storage',
-                    'https://turbo-pvz.ozon.ru/rating'
-                ],
-                label: 'Элементы меню (ссылки)'
-            },
-            { 
-                id: 'remove_outbound_items',
-                type: 'outbound',
-                items: [
-                    'Тарные ящики',
-                    'Отзывы',
-                    'Новости',
-                    'Обучение',
-                    'Адресное хранение'
-                ],
-                label: 'Элементы меню (текст)'
-            }
-        ];
+    // Конфигурация элементов для удаления
+    const deleteConfig = [
+        { 
+            id: 'remove_info_informers',
+            selector: '.ozi__informer__informer__HzSFx.ozi-body-500.ozi__informer__size-500__HzSFx.ozi__informer__info__HzSFx.ozi__informer__showAccentLine__HzSFx',
+            label: 'Информационные уведомления'
+        },
+        { 
+            id: 'remove_breadcrumbs_separator',
+            selector: '.ozi__breadcrumbs__separator__DsxCI',
+            label: 'Разделители'
+        },
+        { 
+            id: 'remove_filters',
+            selector: '._filter_nvofz_1._filterWithStores_nvofz_7',
+            label: 'Фильтры'
+        },
+        { 
+            id: 'remove_breadcrumb_labels',
+            selector: '.ozi__breadcrumb-content__label__PKDFH.ozi-body-500',
+            label: 'Метки навигации'
+        },
+        { 
+            id: 'remove_qr_block',
+            selector: '._qrBlock_1w123_71',
+            label: 'QR-блок'
+        },
+        { 
+            id: 'remove_right_block',
+            selector: '._right_1w123_35',
+            label: 'Правый блок'
+        },
+        { 
+            id: 'remove_disclaimer',
+            selector: '._disclaimer_10nno_1.ozi-label-300',
+            label: 'Дисклеймер'
+        },
+        { 
+            id: 'remove_links',
+            selector: '.ozi__link-pseudo__linkPseudo__9vjoS.ozi__link-common__onLight__QaR0v.ozi__link-common__primary__QaR0v._link_1w123_47.ozi-body-500-true._marginFromLink_1w123_55',
+            label: 'Элементы меню'
+        },
+        { 
+            id: 'remove_islands',
+            selector: '.ozi__island__island__6OcbH.ozi-body-500.ozi__island__elevate__6OcbH.ozi__island__size-500__6OcbH.ozi__island__hoverable__6OcbH.ozi__island__cursor__6OcbH._button_1fzjv_1._toggler_1tvs3_23',
+            label: 'Всплывающие элементы меню'
+        },
+        { 
+            id: 'remove_menu_items',
+            type: 'menu',
+            items: [
+                'https://turbo-pvz.ozon.ru/news',
+                'https://turbo-pvz.ozon.ru/learning',
+                'https://turbo-pvz.ozon.ru/bank/requests',
+                'https://turbo-pvz.ozon.ru/address_storage',
+                'https://turbo-pvz.ozon.ru/rating'
+            ],
+            label: 'Элементы меню (ссылки)'
+        },
+        { 
+            id: 'remove_outbound_items',
+            type: 'outbound',
+            items: [
+                'Тарные ящики',
+                'Отзывы',
+                'Новости',
+                'Обучение',
+                'Адресное хранение'
+            ],
+            label: 'Элементы меню (текст)'
+        }
+    ];
 
     function checkExtensionValidity() {
         try {

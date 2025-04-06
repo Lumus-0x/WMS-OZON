@@ -1,5 +1,5 @@
-let isExtensionActive = false;
 let isOverlayActive = false;
+let isExtensionActive = false;
 let isProcessing = false; // Флаг для блокировки рекурсии
 
 function checkExtensionValidity() {
@@ -39,7 +39,7 @@ function changeAddressBadge() {
             if (elements.versions) {
                 elements.versions.textContent = elements.versions.textContent
                     .trim()
-                    .replace(/^Версия: 3\.2\.17/, settings.versionField || 'Кастомная WMS OZON 1.3.1');
+                    .replace(/^Версия: 3\.2\.17/, settings.versionField || 'Кастомная WMS OZON 1.3.3');
                 elements.versions.style.fontFamily = 'Pacifico, cursive';
                 elements.versions.style.fontSize = '13px';
                 elements.versions.style.color = '#778899';
@@ -249,10 +249,16 @@ function deactivateModifications() {
     console.log('Деактивация модификаций...');
     isExtensionActive = false;
     observer.disconnect();
-    window.location.reload();
+    
+    // Устанавливаем флаг в localStorage, чтобы знать, что перезагрузка уже была выполнена
+    if (!localStorage.getItem('deactivationReload')) {
+        localStorage.setItem('deactivationReload', 'true');
+        window.location.reload();
+    } else {
+        // Сбрасываем флаг для будущих деактиваций
+        localStorage.removeItem('deactivationReload');
+    }
 }
-
-
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.action === 'toggleExtension') {
         isExtensionActive = !isExtensionActive;
