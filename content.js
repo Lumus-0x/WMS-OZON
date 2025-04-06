@@ -27,7 +27,7 @@ function changeAddressBadge() {
                 claimsMain: document.querySelector('.ozi__text-view__textView__ff2BT.ozi__text-view__headline-h1__ff2BT.ozi-heading-600.ozi__text-view__light__ff2BT.ozi__text-view__paddingTopOff__ff2BT'),
                 claimsNumber: document.querySelector('.ozi__text-view__textView__ff2BT.ozi__text-view__headline-h1__ff2BT.ozi-heading-600.ozi__text-view__light__ff2BT.ozi__text-view__paddingBottomOff__ff2BT.ozi__text-view__paddingTopOff__ff2BT'),
                 loginInfo: document.querySelector('._title_1w123_89.ozi-heading-700'),
-                serachItemPole: document.querySelector('.ozi__text-view__textView__ff2BT.ozi__text-view__paragraph-medium__ff2BT.ozi-body-500.ozi__text-view__light__ff2BT'),
+                searchItemPole: document.querySelector('.ozi__text-view__textView__ff2BT.ozi__text-view__paragraph-medium__ff2BT.ozi-body-500.ozi__text-view__light__ff2BT'),
             };
 
             if (elements.searchItemPole) {
@@ -278,6 +278,12 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             updateOverlayUI();
             sendResponse({ overlayStatus: isOverlayActive ? 'Показано' : 'Скрыто' });
         });
+        return true;
+    }
+    if (message.action === 'applyDeleteSettings') {
+        // Force apply delete settings immediately
+        removeCarriages();
+        sendResponse({ status: 'Applied' });
         return true;
     }
 });

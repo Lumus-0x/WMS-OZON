@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', function() {
         try {
             deleteSwitchesContainer.innerHTML = deleteConfig.map(item => `
                 <div class="switch">
-                    <label>${item.label}</label>
+                    <label for="${item.id}">${item.label}</label>
                     <div class="switch-control">
                         <input type="checkbox" 
                                id="${item.id}" 
@@ -135,6 +135,24 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                 </div>
             `).join('');
+            
+            // Add click event listeners to each switch
+            deleteConfig.forEach(item => {
+                const switchElement = document.getElementById(item.id);
+                if (switchElement) {
+                    // Add a click event listener to the parent switch div to improve clickability
+                    const parentSwitch = switchElement.closest('.switch');
+                    if (parentSwitch) {
+                        parentSwitch.addEventListener('click', function(e) {
+                            // Only toggle if the click wasn't directly on the checkbox
+                            // (to avoid double-toggling)
+                            if (e.target !== switchElement) {
+                                switchElement.checked = !switchElement.checked;
+                            }
+                        });
+                    }
+                }
+            });
         } catch (e) {
             console.error('Render error:', e);
         }
@@ -258,7 +276,40 @@ document.addEventListener('DOMContentLoaded', function() {
             });
             
             chrome.storage.local.set({ deleteSettings: settings }, () => {
-                reloadTurboPvzTabs();
+                // First, make sure the extension is active
+                chrome.storage.local.get('extensionActive', ({ extensionActive }) => {
+                    if (!extensionActive) {
+                        // If extension is not active, activate it first
+                        chrome.storage.local.set({ extensionActive: true }, () => {
+                            updateUI(true);
+                            // Send message to apply settings immediately, then reload tabs
+                            chrome.tabs.query({ url: "https://turbo-pvz.ozon.ru/*" }, (tabs) => {
+                                tabs.forEach(tab => {
+                                    if (tab.id) {
+                                        // Try to apply settings immediately
+                                        chrome.tabs.sendMessage(tab.id, { action: 'applyDeleteSettings' }, () => {
+                                            // Reload tab regardless of message success
+                                            chrome.tabs.reload(tab.id, { bypassCache: true });
+                                        });
+                                    }
+                                });
+                            });
+                        });
+                    } else {
+                        // If extension is already active, send message to apply settings immediately, then reload tabs
+                        chrome.tabs.query({ url: "https://turbo-pvz.ozon.ru/*" }, (tabs) => {
+                            tabs.forEach(tab => {
+                                if (tab.id) {
+                                    // Try to apply settings immediately
+                                    chrome.tabs.sendMessage(tab.id, { action: 'applyDeleteSettings' }, () => {
+                                        // Reload tab regardless of message success
+                                        chrome.tabs.reload(tab.id, { bypassCache: true });
+                                    });
+                                }
+                            });
+                        });
+                    }
+                });
             });
         } catch (e) {
             console.error('Delete settings error:', e);
