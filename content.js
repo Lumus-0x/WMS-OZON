@@ -1,5 +1,6 @@
 let isExtensionActive = false;
 let isOverlayActive = false;
+let isProcessing = false; // Флаг для блокировки рекурсии
 
 function checkExtensionValidity() {
     try {
@@ -10,16 +11,13 @@ function checkExtensionValidity() {
 }
 
 function changeAddressBadge() {
-    if (!checkExtensionValidity()) {
-        console.error('Extension context invalidated. Reloading...');
-        window.location.reload();
-        return;
-    }
+    if (isProcessing || !checkExtensionValidity()) return;
+    isProcessing = true;
 
     try {
         chrome.storage.local.get('renameSettings', function(result) {
             if (!checkExtensionValidity()) return;
-            
+
             const settings = result.renameSettings || {};
             const elements = {
                 outbound: document.querySelector('.ozi__text-view__textView__ff2BT.ozi__text-view__headline-h2__ff2BT.ozi-heading-400.ozi__text-view__light__ff2BT.ozi__text-view__paddingBottomOff__ff2BT.ozi__text-view__paddingTopOff__ff2BT._title_85wpk_2'),
@@ -32,35 +30,49 @@ function changeAddressBadge() {
                 serachItemPole: document.querySelector('.ozi__text-view__textView__ff2BT.ozi__text-view__paragraph-medium__ff2BT.ozi-body-500.ozi__text-view__light__ff2BT'),
             };
 
-            if (elements.serachItemPole) {
-                elements.serachItemPole.textContent = elements.serachItemPole.textContent.trim().replace(/Введите или отсканируйте номер предмета/, settings.searchField || 'Введите или отсканируйте номер отправления');
+            if (elements.searchItemPole) {
+                elements.searchItemPole.textContent = elements.searchItemPole.textContent
+                    .trim()
+                    .replace(/Введите или отсканируйте номер предмета/, settings.searchField || 'Введите или отсканируйте номер отправления');
             }
-            
+
             if (elements.versions) {
-                elements.versions.textContent = elements.versions.textContent.trim().replace(/^Версия: 3.2.17/, settings.versionField || 'Кастомная WMS OZON 1.3.1');
+                elements.versions.textContent = elements.versions.textContent
+                    .trim()
+                    .replace(/^Версия: 3\.2\.17/, settings.versionField || 'Кастомная WMS OZON 1.3.1');
                 elements.versions.style.fontFamily = 'Pacifico, cursive';
                 elements.versions.style.fontSize = '13px';
                 elements.versions.style.color = '#778899';
             }
 
             if (elements.loginInfo) {
-                elements.loginInfo.textContent = elements.loginInfo.textContent.trim().replace(/^Управление заказами ПВЗ/, settings.loginTitle || 'Вход в систему OZON WMS');
+                elements.loginInfo.textContent = elements.loginInfo.textContent
+                    .trim()
+                    .replace(/^Управление заказами ПВЗ/, settings.loginTitle || 'Вход в систему OZON WMS');
             }
 
             if (elements.profile) {
-                elements.profile.textContent = elements.profile.textContent.trim().replace(/^PVZ_/, settings.profilePrefix || 'Оператор WMS ');
+                elements.profile.textContent = elements.profile.textContent
+                    .trim()
+                    .replace(/^PVZ_/, settings.profilePrefix || 'Оператор WMS ');
             }
 
             if (elements.nameTab) {
-                elements.nameTab.textContent = elements.nameTab.textContent.trim().replace(/^Турбо ПВЗ/, settings.tabName || 'OZON WMS');
+                elements.nameTab.textContent = elements.nameTab.textContent
+                    .trim()
+                    .replace(/^Турбо ПВЗ/, settings.tabName || 'OZON WMS');
             }
 
             if (elements.claimsNumber) {
-                elements.claimsNumber.textContent = elements.claimsNumber.textContent.trim().replace(/^Претензия/, settings.claimReplacement || 'Непонятная фигня ');
+                elements.claimsNumber.textContent = elements.claimsNumber.textContent
+                    .trim()
+                    .replace(/^Претензия/, settings.claimReplacement || 'Непонятная фигня ');
             }
 
             if (elements.claimsMain) {
-                elements.claimsMain.textContent = elements.claimsMain.textContent.trim().replace(/^Список обращений/, settings.claimListReplacement || 'Список бредней OZON');
+                elements.claimsMain.textContent = elements.claimsMain.textContent
+                    .trim()
+                    .replace(/^Список обращений/, settings.claimListReplacement || 'Список бредней OZON');
             }
 
             if (isExtensionActive) {
@@ -69,8 +81,11 @@ function changeAddressBadge() {
         });
     } catch (e) {
         console.error('Storage access error:', e);
+    } finally {
+        isProcessing = false;
     }
 }
+
 
 function removeCarriages() {
     chrome.storage.local.get(['deleteSettings'], result => {
@@ -221,13 +236,22 @@ function checkExtensionState() {
 function activateModifications() {
     console.log('Активация модификаций...');
     isExtensionActive = true;
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true,
+        attributes: false,
+        characterData: false
+    });
     changeAddressBadge();
 }
 
 function deactivateModifications() {
     console.log('Деактивация модификаций...');
     isExtensionActive = false;
+    observer.disconnect();
+    window.location.reload();
 }
+
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.action === 'toggleExtension') {
@@ -252,16 +276,28 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     }
 });
 
-const observer = new MutationObserver(mutations => {
-    if (isExtensionActive) {
-        mutations.forEach(mutation => {
-            if (mutation.type === 'childList' || mutation.type === 'subtree') {
-                console.log('Обнаружены изменения в DOM. Применяем изменения...');
-                changeAddressBadge();
-            }
-        });
+const observer = new MutationObserver((mutations) => {
+    if (!isExtensionActive || isProcessing) return;
+
+    let shouldUpdate = false;
+
+    for (const mutation of mutations) {
+        const isOverlay = Array.from(mutation.addedNodes).some(
+            node => node.id === 'customOverlay'
+        );
+        if (mutation.type === 'childList' && !isOverlay) {
+            shouldUpdate = true;
+            break;
+        }
+    }
+
+    if (shouldUpdate) {
+        setTimeout(() => {
+            changeAddressBadge();
+        }, 100);
     }
 });
+
 
 observer.observe(document.body, {
     childList: true,
