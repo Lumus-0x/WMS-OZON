@@ -138,8 +138,8 @@ function removeCarriages() {
             ];
 
             document.querySelectorAll('.ozi__menu-item__menuItem__8Dv5a').forEach(button => {
-                const linkHref = button.closest('a')?.href;
-                if (menuItemsToRemove.includes(linkHref)) {
+                const linkElement = button.closest('a');
+                if (linkElement && menuItemsToRemove.includes(linkElement.href)) {
                     button.remove();
                 }
             });
@@ -156,8 +156,8 @@ function removeCarriages() {
             ];
 
             document.querySelectorAll('._item_1ghl9_1').forEach(button => {
-                const linkText = button.querySelector('.ozi__text-view__textView__ff2BT.ozi__text-view__headline-h4__ff2BT.ozi-heading-200.ozi__text-view__light__ff2BT')?.textContent?.trim();
-                if (menu_outbound.includes(linkText)) {
+                const textElement = button.querySelector('.ozi__text-view__textView__ff2BT.ozi__text-view__headline-h4__ff2BT.ozi-heading-200.ozi__text-view__light__ff2BT');
+                if (textElement && menu_outbound.includes(textElement.textContent.trim())) {
                     button.remove();
                 }
             });
